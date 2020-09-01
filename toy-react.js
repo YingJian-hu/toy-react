@@ -16,6 +16,7 @@ class TextWrapper {
     }
 }
 
+//  为了不用在类组件中去复写setAttribute，appendChild方法，给类组件写一个基础类继承
 //  类组件的基础类，实现render方法，props，children等
 export class Component {
     constructor() {
@@ -50,12 +51,13 @@ export function createElement(type, attributes, ...children) {
         e.setAttribute(p, attributes[p]);
     }
 
-    //  因类组件嵌套的html直接已数组方式插入到了this.children中，需要展开
     let insertChildren = (children) => {
         for (const child of children) {
             if(typeof child === 'string') {
                 child = new TextWrapper(child);
             }
+
+            //  因类组件嵌套的html直接已数组方式插入到了this.children中，需要展开
             if(typeof child === 'object' && child instanceof Array) {
                 insertChildren(child);
             }else {

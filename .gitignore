@@ -1,0 +1,7 @@
+# files
+.git
+.DS_Store
+*/.DS_Store
+/.vscode
+# folders
+node_modules/

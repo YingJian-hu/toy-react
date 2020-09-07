@@ -27,3 +27,25 @@ npm install @babel/babel-core @babel/preset-env @babel/plugin-transform-react-js
     }
 }
 ```
+
+createElement方法会将html组成js代码
+```
+createElement('tagName', {
+    id: 'xxx',
+    name: 'xxx',
+    key: val,
+    ....
+}, ...children)
+```
+
+要想要实现局部重新渲染，需要用到Dom API里的Range API，每一个最小节点都包装到一个range上，当虚拟dom比较后发生某块区域变化时，重新删插那一块区域的range即可。
+```
+function replaceContent(range, node) {
+    range.insertNode(node);
+    range.setStartAfter(node);
+    range.deleteContents();
+
+    range.setStartBefore(node);
+    range.setEndAfter(node);
+}
+```
